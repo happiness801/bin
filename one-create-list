@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# 
+# For simple OneDrive search; creates a list of all files and paths
+#
+
+STAMP=`date +"%Y%m%d-%H%M"`
+cd $ONEDRIVE
+ls -RalF > LIST.OneDrive.ll-R.$STAMP.txt
+

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# 
+# Super simple OneDrive search; assuming a listing was created similar to:
+#    cd $ONEDRIVE && ll -R > LIST.OneDrive.ll-R.20200815-1322.txt
+#
+
+search=$1
+
+egrep -i "(^\.|${search})" $ONEDRIVE/LIST.OneDrive.*.txt | grep -i -B 1 $search
