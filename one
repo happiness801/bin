@@ -5,5 +5,27 @@
 #
 
 search=$1
+type=search
 
-egrep -i "(^\.|${search})" $ONEDRIVE/LIST.OneDrive.*.txt | grep -i -B 1 $search
+if [[ -f $search ]]; then
+	type=file
+elif [[ -d $search ]]; then
+	type=directory
+else
+	type=search
+fi
+
+if [[ $type == 'directory' ]]; then
+	#cd $search/
+	for f in $search/*
+	do
+		f=`basename $f`
+			
+		if [[ -f $f && $f != 'Thumbs.db' && $f != 'desktop.ini' ]]; then
+			one `basename $f` || echo "Unable to find $f!"
+		fi
+	done
+
+else
+	egrep -i "(^\.|${search})" $ONEDRIVE/LIST.OneDrive.*.txt | grep -i -B 1 $search
+fi
