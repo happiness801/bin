@@ -15,17 +15,20 @@ else
 	type=search
 fi
 
+echo "OneDriveSearch: [$search] Type: [$type]"
+
 if [[ $type == 'directory' ]]; then
-	#cd $search/
-	for f in $search/*
+	for f in "$search"/*
 	do
-		f=`basename $f`
+		fb=`basename "$f"`
 			
-		if [[ -f $f && $f != 'Thumbs.db' && $f != 'desktop.ini' ]]; then
-			one `basename $f` || echo "Unable to find $f!"
+		if [[ $fb != '*' && $fb != 'Thumbs.db' && $fb != 'desktop.ini' && $fb != 'ZbThumbnail.info' && $fb != 'Picasa.ini' ]]; then
+			one "$fb" || echo "!!!!!!!!! Unable to find: $f"
 		fi
 	done
-
 else
-	egrep -i "(^\.|${search})" $ONEDRIVE/LIST.OneDrive.*.txt | grep -i -B 1 $search
+	# NOTE: Still have issues with single-quotes in filenames
+	# They are being escaped and the egrep call doesn't like that...
+	escaped=`printf "%q" "${search}"`
+	egrep -i "(^\.|${escaped})" $ONEDRIVE/LIST.OneDrive.*.txt | grep -i -B 1 "$search"
 fi
