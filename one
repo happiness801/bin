@@ -23,7 +23,11 @@ if [[ $type == 'directory' ]]; then
 		fb=`basename "$f"`
 			
 		if [[ $fb != '*' && $fb != 'Thumbs.db' && $fb != 'desktop.ini' && $fb != 'ZbThumbnail.info' && $fb != 'Picasa.ini' ]]; then
-			one "$fb" || echo "!!!!!!!!! Unable to find: $f"
+			if [[ -d $f ]]; then
+				one "$f"
+			else
+				one "$fb" || echo "!!!!!!!!! Unable to find: $f"
+			fi
 		fi
 	done
 else
