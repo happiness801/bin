@@ -5,5 +5,8 @@
 
 STAMP=`date +"%Y%m%d-%H%M"`
 cd $ONEDRIVE
+# Rename any existing LISTs to .old
+for f in LIST.OneDrive.*.txt; do mv $f `basename $f .txt`.old; done;
+# Creating new LIST file
 ls -RalF > LIST.OneDrive.ll-R.$STAMP.txt
 
