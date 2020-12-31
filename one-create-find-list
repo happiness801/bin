@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# 
+# For simple OneDrive search; creates a list of all files and paths
+#
+
+STAMP=`date +"%Y%m%d-%H%M"`
+cd $ONEDRIVE
+# Rename any existing LISTs to .old
+for f in LIST.OneDrive.*.txt; do mv $f `basename $f .txt`.old; done;
+# Creating new LIST file
+find . -type 'f' > LIST.OneDrive.find.$STAMP.txt
+
