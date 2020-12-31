@@ -23,12 +23,14 @@ fi
 
 echo "<-- OneDriveSearch: [$search] Type: [$type] List: [$listfile] -->"
 
+shopt -s nocasematch
+
 if [[ $type == 'directory' ]]; then
 	for f in "$search"/*
 	do
 		fb=`basename "$f"`
 			
-		if [[ $fb != '*' && $fb != 'Thumbs.db' && $fb != 'desktop.ini' && $fb != 'ZbThumbnail.info' && $fb != 'Picasa.ini' && $fb != 'Folder.jpg' ]]; then
+		if [[ $fb != '*' && $fb != 'Thumbs.db' && $fb != 'desktop.ini' && $fb != 'ZbThumbnail.info' && $fb != 'Picasa.ini' && $fb != 'Folder.jpg' && $fb != 'AlbumArtSmall.jpg' && $fb != 'WarUser.dat' && ! $fb =~ ^README ]]; then
 			if [[ -d $f ]]; then
 				one "$f" $listfile
 			else
