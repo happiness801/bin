@@ -21,7 +21,12 @@ else
 	type=search
 fi
 
-echo "<-- OneDriveSearch: [$search] Type: [$type] List: [$listfile] -->"
+# NOTE: I don't remember why, but I was initially filtering out when $fb = '*'
+# NOTE: You have to escape these as they are used in a regex to filter files we don't care about
+ignorelist=(Thumbs\.db desktop\.ini ZbThumbnail\.info Picasa\.ini Folder\.jpg AlbumArt.*\.jpg WarUser\.dat README\.\*)
+ignoreregex="^($(IFS=\|; echo "${ignorelist[*]}"))$"
+
+echo "    <-- OneDriveSearch: $type:[$search] in [$listfile] -->"
 
 shopt -s nocasematch
 
@@ -30,18 +35,20 @@ if [[ $type == 'directory' ]]; then
 	do
 		fb=`basename "$f"`
 			
-		if [[ $fb != '*' && $fb != 'Thumbs.db' && $fb != 'desktop.ini' && $fb != 'ZbThumbnail.info' && $fb != 'Picasa.ini' && $fb != 'Folder.jpg' && $fb != 'AlbumArtSmall.jpg' && $fb != 'WarUser.dat' && ! $fb =~ ^README ]]; then
+		if [[ $fb =~ $ignoreregex ]]; then
+			echo "        NOTE: Ignoring [$fb]"
+		else
 			if [[ -d $f ]]; then
 				one "$f" $listfile
 			else
-				one "$fb" $listfile || echo "!!!!!!!!! Unable to find: $f"
+				one "$fb" $listfile || echo "##### NOTFOUND: $f"
 			fi
 		fi
 	done
 else
 	# NOTE: Still have issues with single-quotes in filenames
 	# They are being escaped and the egrep call doesn't like that...
-	escaped=`printf "%q" "${search}"`
+	#escaped=`printf "%q" "${search}"`
 	#egrep -i "(^\.|${escaped})" $listfile | grep -i -B 1 "$search"
 	
 	# This version works with quotes in filenames, but I think it had issues
@@ -49,5 +56,8 @@ else
 	# but I can't remember the details (2020-12-27)
 	# This also has issues with filenames with [ or ] in them...
 	# Perhaps what is needed is []'s need to be escaped but 's should NOT be...
-	grep -i "${search}" $listfile | grep -i -B 1 "$search"
+	# Now escaping []'s seems to be working with a 'find'-based list (2021-01-01)
+	search=${search//\[/\\[}
+	search=${search//\]/\\]}
+	grep -i "${search}" $listfile
 fi
