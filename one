@@ -23,7 +23,7 @@ fi
 
 # NOTE: I don't remember why, but I was initially filtering out when $fb = '*'
 # NOTE: You have to escape these as they are used in a regex to filter files we don't care about
-ignorelist=(Thumbs\.db desktop\.ini ZbThumbnail\.info Picasa\.ini Folder\.jpg AlbumArt.*\.jpg WarUser\.dat README\.\*)
+ignorelist=(\\* Thumbs\.db desktop\.ini ZbThumbnail\.info Picasa\.ini Folder\.jpg AlbumArt.*\.jpg WarUser\.dat README\.\* Front\.jpg Back\.jpg index\.\*)
 ignoreregex="^($(IFS=\|; echo "${ignorelist[*]}"))$"
 
 echo "    <-- OneDriveSearch: $type:[$search] in [$listfile] -->"
@@ -41,7 +41,7 @@ if [[ $type == 'directory' ]]; then
 			if [[ -d $f ]]; then
 				one "$f" $listfile
 			else
-				one "$fb" $listfile || echo "##### NOTFOUND: $f"
+				one "/$fb$" $listfile || echo "##### NOTFOUND: $f"
 			fi
 		fi
 	done
