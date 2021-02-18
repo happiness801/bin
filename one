@@ -3,6 +3,10 @@
 # Super simple OneDrive search; assuming a listing was created similar to:
 #    cd $ONEDRIVE && ll -R > LIST.OneDrive.ll-R.20200815-1322.txt
 #
+#     or using `one-create-find-list` or `one-create-ll-list` tools
+#
+# Assumes $ONEDRIVE is configured and pointing to the user's OneDrive root folder
+#
 
 search=$1
 listfile=$2

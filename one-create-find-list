@@ -2,6 +2,7 @@
 # 
 # For simple OneDrive search; creates a list of all files and paths
 #
+# Assumes $ONEDRIVE is configured and pointing to the user's OneDrive root folder
 
 STAMP=`date +"%Y%m%d-%H%M"`
 cd $ONEDRIVE
