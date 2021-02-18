@@ -1,0 +1,6 @@
+#!/bin/env bash
+
+# WSL ONLY
+# Outputs Windows clipboard contents
+
+powershell.exe -command "Get-Clipboard"
