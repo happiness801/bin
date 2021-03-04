@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# CD's into each subdirectory of CWD and runs a 'git pull'
+
+for repo in * ;
+do
+	# Skip non-directories
+	if [[ ! -d $repo ]]; then
+		continue;
+	fi
+	echo ; echo ; echo ;
+	echo "REPO: ${repo}"
+	if [[ $repo ]]; then
+		cd $repo
+		git pull
+		cd ..
+	fi
+done
+
