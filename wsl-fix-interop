@@ -19,7 +19,7 @@
 # 
 # This doesn't work as a script, because the script runs in isolation
 
-# This won't really help...
-fix_wsl2_interop
+# This won't really work/help...
+#fix_wsl2_interop
 
 echo "Run: fix_wsl2_interop"
