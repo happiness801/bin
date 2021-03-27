@@ -1,0 +1,2 @@
+#!/bin/bash
+sqlite3 -column -header ~/website_assets/db/www.lizandkevin.info.db $*
