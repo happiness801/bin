@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Github Issue #4245 system date is not same with windows (WSL 2)
+#   https://github.com/microsoft/WSL/issues/4245
+
+sudo hwclock -s
+date
