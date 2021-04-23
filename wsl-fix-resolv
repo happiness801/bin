@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Fix resolv.conf issue that causes 'hostname could not be resolved' issues
+
+BASEDIR=$(dirname $0)
+
+cp /etc/resolv.conf /etc/resolv.conf.bak
+cp $BASEDIR/resolv.conf /etc/resolv.conf
