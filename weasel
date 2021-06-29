@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+# Scan input for subjective or weasel words
+#  Idea from: https://inowland.medium.com/using-6-page-and-2-page-documents-to-make-organizational-decisions-3216badde909
+# NOTE: -w option in Grep matches only whole words (instead of using regex in expression)
+#
+# USAGE:
+#   ./weasel document_or_documents
+# 
+# OUTPUT:
+#   blank if no weasel words/phrases are found
+#   Shows word and matching line in file(s) if found
+# 
+# TODO:
+#   Make this so it can work on STDIN instead of passing filenames
+
+weasel_words=("a number of" "clearly" "completely" "could" "exceedingly" "excellent" "extremely" "extraordinary" "fairly" "few" "interestingly" "it is said" "large" "less than" "many" "more than" "most" "normally" "often" "probably" "quite" "recent" "relatively" "remarkably" "several" "significant" "substantial" "surprising" "tiny" "up to" "usually" "various" "vast" "very")
+
+# Loop on keywords
+for word in "${weasel_words[@]}" ;
+do
+	# Search given files for matches of word
+	grep_result=$(grep -wHin "$word" "$*")
+
+	# If matches, print out matching word, THEN matching lines from Grep
+	if [[ $? == "0" ]]; then
+		echo
+		echo "*****>>>>> $word <<<<<*****"
+		echo $grep_result
+	fi
+done
+
