@@ -5,28 +5,48 @@
 # NOTE: -w option in Grep matches only whole words (instead of using regex in expression)
 #
 # USAGE:
-#   ./weasel document_or_documents
+#   ./weasel document
+# OR
+#   pipe_of_content | weasel
 # 
 # OUTPUT:
 #   blank if no weasel words/phrases are found
-#   Shows word and matching line in file(s) if found
+#   Shows word and matching line in file/output if found
 # 
 # TODO:
-#   Make this so it can work on STDIN instead of passing filenames
+#   Fix passing multilpe files (e.g. *) again
+#   STDIN works, but is very slow (awful nested loop...)
+
+function weasel_check() {
+	# Loop on keywords
+	for word in "${weasel_words[@]}" ;
+	do
+		# Search given files for matches of word
+		if [[ -e $1 ]]; then
+			# File passed in
+			grep_result=$(grep -wHin "$word" "$*")
+		else
+			# Text/STDIN passed in
+			grep_result=$(echo "$*" | grep -wHin "$word")
+		fi
+
+		# If matches, print out matching word, THEN matching lines from Grep
+		if [[ $? == "0" ]]; then
+			echo
+			echo "*****>>>>> $word <<<<<*****"
+			echo $grep_result
+		fi
+	done
+}
 
 weasel_words=("a number of" "clearly" "completely" "could" "exceedingly" "excellent" "extremely" "extraordinary" "fairly" "few" "interestingly" "it is said" "large" "less than" "many" "more than" "most" "normally" "often" "probably" "quite" "recent" "relatively" "remarkably" "several" "significant" "substantial" "surprising" "tiny" "up to" "usually" "various" "vast" "very")
 
-# Loop on keywords
-for word in "${weasel_words[@]}" ;
-do
-	# Search given files for matches of word
-	grep_result=$(grep -wHin "$word" "$*")
+if [[ -t 0 ]]; then 
+	weasel_check $*
+else
+	while read LINE; do
+		weasel_check $LINE
+	done
+fi
 
-	# If matches, print out matching word, THEN matching lines from Grep
-	if [[ $? == "0" ]]; then
-		echo
-		echo "*****>>>>> $word <<<<<*****"
-		echo $grep_result
-	fi
-done
-
+exit 0
