@@ -12,7 +12,10 @@ do
 	echo "REPO: ${repo}"
 	if [[ $repo ]]; then
 		cd $repo
-		git pull
+		# TODO: show (optionally?) only the most relevant information:
+		# (Not yet working)
+		# git pull 2>&1 | egrep "^(REPO|error|fatal|    )" 
+		git pull 
 		cd ..
 	fi
 done

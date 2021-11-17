@@ -13,3 +13,8 @@ Clone at `~`, re-proccess `~/.profile` (because typically, .profile will add `~/
  clone git@github.com:happiness801/bin.git
  . ~/.profile
 ```
+
+## Other Useful scripts:
+
+1. git@github.com:gdiepen/docker-convenience-scripts.git
+

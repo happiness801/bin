@@ -14,11 +14,15 @@
 # TODO:
 #   Make this so it can work on STDIN instead of passing filenames
 
-weasel_words=("a number of" "clearly" "completely" "could" "exceedingly" "excellent" "extremely" "extraordinary" "fairly" "few" "interestingly" "it is said" "large" "less than" "many" "more than" "most" "normally" "often" "probably" "quite" "recent" "relatively" "remarkably" "several" "significant" "substantial" "surprising" "tiny" "up to" "usually" "various" "vast" "very")
+MY_PATH=`dirname "$0"`
+MY_PATH=`( cd "$MY_PATH" && pwd )`
 
 # Loop on keywords
-for word in "${weasel_words[@]}" ;
+while read word;
 do
+
+	echo $word; continue;
+
 	# Search given files for matches of word
 	grep_result=$(grep -wHin "$word" "$*")
 
@@ -28,5 +32,5 @@ do
 		echo "*****>>>>> $word <<<<<*****"
 		echo $grep_result
 	fi
-done
+done < $MY_PATH/weasel.list
 
