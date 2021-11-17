@@ -5,14 +5,17 @@
 # NOTE: -w option in Grep matches only whole words (instead of using regex in expression)
 #
 # USAGE:
-#   ./weasel document_or_documents
+#   ./weasel document
+# OR
+#   pipe_of_content | weasel
 # 
 # OUTPUT:
 #   blank if no weasel words/phrases are found
-#   Shows word and matching line in file(s) if found
+#   Shows word and matching line in file/output if found
 # 
 # TODO:
-#   Make this so it can work on STDIN instead of passing filenames
+#   Fix passing multilpe files (e.g. *) again
+#   STDIN works, but is very slow (awful nested loop...)
 
 MY_PATH=`dirname "$0"`
 MY_PATH=`( cd "$MY_PATH" && pwd )`
@@ -34,3 +37,4 @@ do
 	fi
 done < $MY_PATH/weasel.list
 
+exit 0
