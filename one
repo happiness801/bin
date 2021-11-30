@@ -15,6 +15,7 @@ if [[ $listfile == "" ]]; then
 	listfile=($ONEDRIVE/LIST.OneDrive.*.txt)
 fi
 
+listfilebasename=`basename $listfile`
 type=search
 
 if [[ -f $search ]]; then
@@ -30,7 +31,7 @@ fi
 ignorelist=(\\* Thumbs\.db desktop\.ini ZbThumbnail\.info Picasa\.ini Folder\.jpg AlbumArt.*\.jpg WarUser\.dat README\.\* Front\.jpg Back\.jpg index\.\*)
 ignoreregex="^($(IFS=\|; echo "${ignorelist[*]}"))$"
 
-echo "    <-- OneDriveSearch: $type:[$search] in [$listfile] -->"
+echo "    <-- OneDriveSearch: $type:[$search] in [$listfilebasename] -->"
 
 shopt -s nocasematch
 
