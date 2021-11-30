@@ -2,5 +2,5 @@
 
 DRIVE=$1
 
-mkdir -p /mnt/$DRIVE
+sudo mkdir -p /mnt/$DRIVE
 sudo mount -t drvfs $DRIVE: /mnt/$DRIVE
