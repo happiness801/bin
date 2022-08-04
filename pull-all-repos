@@ -8,8 +8,15 @@ do
 	if [[ ! -d $repo ]]; then
 		continue;
 	fi
+
+	# Skip non-git directories
+	if [[ ! -d $repo/.git ]]; then
+		continue;
+	fi
+
 	echo ; echo ; echo ;
 	echo "REPO: ${repo}"
+
 	if [[ $repo ]]; then
 		cd $repo
 		# TODO: show (optionally?) only the most relevant information:
