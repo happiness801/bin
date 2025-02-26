@@ -1,0 +1,27 @@
+#! /bin/bash
+
+echo "|**Service**|**URL**|**Links**|"
+echo "|---|---|---|"
+
+for service in $( kubectl -n stage get deployments -o json | jq -r ".items[].metadata.name" | egrep -v "\bdemo\b" | egrep -v "\btest[0-9]*\b" | egrep -v "\bpoc\b" | egrep 'service$' )
+    do
+        repo="https://github.com/chghealthcare/$service"
+        readiness=$( kubectl get deployments -n stage -o=json $service | jq -r ".spec.template.spec.containers[].readinessProbe.httpGet.path" )
+        hostname=$( kubectl get virtualservice -n stage -o=json $service | jq -r ".spec.hosts[0]" )
+        url="https://${hostname}"
+        readiness="${url}${readiness}"
+        swagger="${url}/docs/"
+        
+        echo -n "|[${service}](${repo})|"
+        echo -n "${url}|"
+        echo -n "[Readiness](${readiness}), "
+        echo "[Swagger](${swagger})|"
+    done
+
+# NOTE: After generating, I had to make a few modifications
+#  - Some queries resulted in errors. I had to remove the error line and the bad service line
+#  - Some are Java apps and have a different Swagger URL (usually /swagger-ui/index.html)
+#  - Some I couldn't find Swagger URL for
+#  - I manually removed the Swagger links in Confluence after the page was created
+#  - Some require some sort of auth and MAY have Swagger links, or may not
+
